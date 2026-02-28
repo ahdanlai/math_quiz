@@ -42,6 +42,52 @@ header h1 {
   color: #34495e;
 }
 
+.operator-container {
+  margin-bottom: 2rem;
+}
+
+.operator-container span {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #7f8c8d;
+}
+
+.operator-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn-operator {
+  background: #eee;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  color: #555;
+  padding: 0;
+}
+
+.btn-operator:hover {
+  background: #e0e0e0;
+  transform: scale(1.1);
+}
+
+.btn-operator.active {
+  background: #4a90e2;
+  color: white;
+  border-color: #357abd;
+  box-shadow: 0 4px 10px rgba(74, 144, 226, 0.3);
+}
+
 .difficulty-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
