@@ -133,7 +133,7 @@ function App() {
               <button className="btn-icon" onClick={handleQuit} title="Back to Home">🏠</button>
             </div>
             <div className="progress">
-              Question {quizManager.currentQuestionIndex + 1} of {quizManager.questionCount}
+              Question {feedback ? quizManager.currentQuestionIndex : quizManager.currentQuestionIndex + 1} of {quizManager.questionCount}
             </div>
             <div className="question-text">
               {currentQuestion.operand1} {currentQuestion.operator} {currentQuestion.operand2} = ?
