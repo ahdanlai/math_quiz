@@ -95,7 +95,7 @@ function App() {
             <div className="score-display">
               <span className="final-score">{quizManager.score}</span> / {quizManager.questionCount}
             </div>
-            <p>{quizManager.score === quizManager.questionCount ? '🥇 Perfect Score! You're a math wizard!' : 'Great job! Keep practicing!'}</p>
+            <p>{quizManager.score === quizManager.questionCount ? "🥇 Perfect Score! You're a math wizard!" : 'Great job! Keep practicing!'}</p>
             <button className="btn-primary" onClick={handleStart}>Play Again</button>
           </div>
         )}
