@@ -162,7 +162,7 @@ function App() {
 
         {state === 'FINISHED' && (
           <div className="screen result-screen">
-            <div className="screen-header-top right-align">
+            <div className="screen-header-top">
               <button className="btn-icon" onClick={handleQuit} title="Back to Home">🏠</button>
             </div>
             <h2>Quiz Complete!</h2>
