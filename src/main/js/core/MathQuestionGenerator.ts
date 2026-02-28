@@ -4,27 +4,27 @@
  * Difficulty levels affect the range of numbers used.
  */
 
-const Difficulty = {
+export const Difficulty = {
   EASY: { min: 1, max: 10 },
   MEDIUM: { min: 1, max: 50 },
   HARD: { min: 1, max: 100 },
 };
 
-const Operator = {
+export const Operator = {
   ADD: '+',
   SUBTRACT: '-',
   MULTIPLY: '*',
   DIVIDE: '/',
 };
 
-class MathQuestionGenerator {
+export class MathQuestionGenerator {
   /**
    * Generates a random integer between min and max (inclusive).
    * @param {number} min
    * @param {number} max
    * @returns {number}
    */
-  getRandomInt(min, max) {
+  getRandomInt(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
@@ -32,11 +32,11 @@ class MathQuestionGenerator {
    * Generates a math question based on the operator and difficulty.
    * @param {string} operator - The type of operation ('+', '-', '*', '/').
    * @param {string} difficulty - Difficulty level ('EASY', 'MEDIUM', 'HARD').
-   * @returns {object} { operand1, operand2, operator, answer }
+   * @returns {object} { operand1, operand2, operator, answer, text }
    */
-  generateQuestion(operator, difficulty = 'EASY') {
-    const limits = Difficulty[difficulty.toUpperCase()] || Difficulty.EASY;
-    let operand1, operand2, answer;
+  generateQuestion(operator: string, difficulty: string = 'EASY') {
+    const limits = Difficulty[difficulty.toUpperCase() as keyof typeof Difficulty] || Difficulty.EASY;
+    let operand1: number, operand2: number, answer: number;
 
     switch (operator) {
       case Operator.ADD:
@@ -77,9 +77,3 @@ class MathQuestionGenerator {
     };
   }
 }
-
-module.exports = {
-  MathQuestionGenerator,
-  Difficulty,
-  Operator,
-};
