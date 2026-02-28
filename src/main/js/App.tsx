@@ -56,24 +56,28 @@ function App() {
       <main className="quiz-card">
         {state === 'IDLE' && (
           <div className="screen start-screen">
-            <p>Ready to test your math skills?</p>
+            <h2>Select Your Challenge</h2>
             
-            <div className="difficulty-container">
-              <span>Choose Difficulty:</span>
-              <div className="difficulty-buttons">
-                {['EASY', 'MEDIUM', 'HARD'].map((level) => (
-                  <button
-                    key={level}
-                    className={`btn-difficulty ${difficulty === level ? 'active' : ''}`}
-                    onClick={() => setDifficulty(level)}
-                  >
-                    {level.charAt(0) + level.slice(1).toLowerCase()}
-                  </button>
-                ))}
-              </div>
+            <div className="difficulty-grid">
+              {[
+                { id: 'EASY', label: 'Easy', desc: '1 - 10', color: 'green' },
+                { id: 'MEDIUM', label: 'Medium', desc: '1 - 50', color: 'orange' },
+                { id: 'HARD', label: 'Hard', desc: '1 - 100', color: 'red' }
+              ].map((level) => (
+                <div
+                  key={level.id}
+                  className={`difficulty-card ${difficulty === level.id ? 'active' : ''} ${level.color}`}
+                  onClick={() => setDifficulty(level.id)}
+                >
+                  <div className="level-label">{level.label}</div>
+                  <div className="level-desc">{level.desc}</div>
+                </div>
+              ))}
             </div>
 
-            <button className="btn-primary" onClick={handleStart}>Start Quiz!</button>
+            <button className="btn-primary start-btn" onClick={handleStart}>
+              Go! 🚀
+            </button>
           </div>
         )}
 

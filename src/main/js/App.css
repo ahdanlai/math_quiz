@@ -35,43 +35,53 @@ header h1 {
   color: #666;
 }
 
-.difficulty-container {
+.start-screen h2 {
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  color: #34495e;
+}
+
+.difficulty-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
   margin-bottom: 2.5rem;
 }
 
-.difficulty-container span {
-  display: block;
+.difficulty-card {
+  padding: 1rem;
+  border-radius: 12px;
+  border: 3px solid #eee;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  background: #fff;
+}
+
+.difficulty-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.difficulty-card.green.active { border-color: #27ae60; background: #e8f5e9; }
+.difficulty-card.orange.active { border-color: #f39c12; background: #fff3e0; }
+.difficulty-card.red.active { border-color: #e74c3c; background: #fdeaea; }
+
+.level-label {
   font-weight: bold;
-  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.level-desc {
+  font-size: 0.8rem;
   color: #7f8c8d;
 }
 
-.difficulty-buttons {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-}
-
-.btn-difficulty {
-  background: #eee;
-  border: 2px solid transparent;
-  padding: 0.6rem 1.5rem;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.3s;
-  font-weight: 500;
-  color: #555;
-}
-
-.btn-difficulty:hover {
-  background: #e0e0e0;
-}
-
-.btn-difficulty.active {
-  background: #4a90e2;
-  color: white;
-  border-color: #357abd;
-  box-shadow: 0 4px 10px rgba(74, 144, 226, 0.3);
+.start-btn {
+  width: 100%;
+  font-size: 1.5rem !important;
+  padding: 1.2rem !important;
+  box-shadow: 0 4px 15px rgba(74, 144, 226, 0.4);
 }
 
 .question-screen .progress {
