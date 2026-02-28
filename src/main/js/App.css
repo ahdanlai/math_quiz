@@ -259,3 +259,56 @@ input[type="number"]:focus {
 body {
   background-color: #f0f4f8;
 }
+
+.history-section {
+  margin-top: 2rem;
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  text-align: left;
+}
+
+.history-section h3 {
+  margin-top: 0;
+  color: #34495e;
+  font-size: 1.2rem;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 0.5rem;
+}
+
+.history-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.8rem;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.history-item.correct {
+  background-color: #f8fff8;
+  color: #27ae60;
+}
+
+.history-item.incorrect {
+  background-color: #fff8f8;
+  color: #c0392b;
+}
+
+.history-question {
+  font-weight: 500;
+}
+
+.history-icon {
+  font-weight: bold;
+}

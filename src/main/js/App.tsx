@@ -174,6 +174,24 @@ function App() {
           </div>
         )}
       </main>
+
+      {(state === 'ACTIVE' || state === 'FINISHED') && quizManager.questions.filter(q => q.userAnswer !== null).length > 0 && (
+        <div className="history-section">
+          <h3>Recent Answers</h3>
+          <ul className="history-list">
+            {quizManager.questions.filter(q => q.userAnswer !== null).map((q, idx) => (
+              <li key={idx} className={`history-item ${q.isCorrect ? 'correct' : 'incorrect'}`}>
+                <span className="history-question">
+                  Q{idx + 1}: {q.operand1} {q.operator} {q.operand2} = {q.userAnswer}
+                </span>
+                <span className="history-icon">
+                  {q.isCorrect ? '✅' : `❌ (Ans: ${q.answer})`}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
