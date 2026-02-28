@@ -17,7 +17,10 @@ function App() {
 
   useEffect(() => {
     if (state === 'ACTIVE' && !feedback && inputRef.current) {
-      inputRef.current.focus();
+      // Small timeout ensures the DOM has updated and input is no longer disabled
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 10);
     }
   }, [currentQuestion, feedback, state]);
   
