@@ -45,6 +45,12 @@ function App() {
     setUserAnswer('');
   };
 
+  const handleQuit = () => {
+    setState('IDLE');
+    setFeedback(null);
+    setUserAnswer('');
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!userAnswer) return;
@@ -123,8 +129,11 @@ function App() {
 
         {state === 'ACTIVE' && currentQuestion && (
           <div className="screen question-screen">
-            <div className="progress">
-              Question {quizManager.currentQuestionIndex + 1} of {quizManager.questionCount}
+            <div className="screen-header">
+              <button className="btn-icon" onClick={handleQuit} title="Back to Home">🏠</button>
+              <div className="progress">
+                Question {quizManager.currentQuestionIndex + 1} of {quizManager.questionCount}
+              </div>
             </div>
             <div className="question-text">
               {currentQuestion.operand1} {currentQuestion.operator} {currentQuestion.operand2} = ?
@@ -153,6 +162,9 @@ function App() {
 
         {state === 'FINISHED' && (
           <div className="screen result-screen">
+            <div className="screen-header right-align">
+              <button className="btn-icon" onClick={handleQuit} title="Back to Home">🏠</button>
+            </div>
             <h2>Quiz Complete!</h2>
             <div className="score-display">
               <span className="final-score">{quizManager.score}</span> / {quizManager.questionCount}
