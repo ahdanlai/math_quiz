@@ -132,25 +132,21 @@ header h1 {
 }
 
 .question-screen .progress {
-  font-size: 0.9rem;
-  color: #999;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #7f8c8d;
+  margin-bottom: 0.5rem;
 }
 
-.screen-header {
+.screen-header-top {
   display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
-  position: relative;
+  justify-content: flex-start;
+  margin-bottom: 0.5rem;
+  width: 100%;
 }
 
-.screen-header.right-align {
+.screen-header-top.right-align {
   justify-content: flex-end;
-}
-
-.screen-header .progress {
-  flex-grow: 1;
-  text-align: center;
-  margin-bottom: 0;
 }
 
 .btn-icon {

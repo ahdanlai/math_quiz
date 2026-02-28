@@ -129,11 +129,11 @@ function App() {
 
         {state === 'ACTIVE' && currentQuestion && (
           <div className="screen question-screen">
-            <div className="screen-header">
+            <div className="screen-header-top">
               <button className="btn-icon" onClick={handleQuit} title="Back to Home">🏠</button>
-              <div className="progress">
-                Question {quizManager.currentQuestionIndex + 1} of {quizManager.questionCount}
-              </div>
+            </div>
+            <div className="progress">
+              Question {quizManager.currentQuestionIndex + 1} of {quizManager.questionCount}
             </div>
             <div className="question-text">
               {currentQuestion.operand1} {currentQuestion.operator} {currentQuestion.operand2} = ?
@@ -162,7 +162,7 @@ function App() {
 
         {state === 'FINISHED' && (
           <div className="screen result-screen">
-            <div className="screen-header right-align">
+            <div className="screen-header-top right-align">
               <button className="btn-icon" onClick={handleQuit} title="Back to Home">🏠</button>
             </div>
             <h2>Quiz Complete!</h2>
