@@ -155,9 +155,32 @@ header h1 {
 
 .screen-header-top {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 0.5rem;
   width: 100%;
+}
+
+.timer {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  background: #eee;
+  padding: 0.2rem 0.8rem;
+  border-radius: 15px;
+  border: 3px solid #333;
+}
+
+.timer.danger {
+  color: #c0392b;
+  background: #fdeaea;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
 }
 
 .screen-header-top.right-align {

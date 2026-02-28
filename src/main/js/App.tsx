@@ -12,17 +12,43 @@ function App() {
   const [currentQuestion, setCurrentQuestion] = useState<any>(null);
   const [userAnswer, setUserAnswer] = useState('');
   const [feedback, setFeedback] = useState<{ isCorrect: boolean; message: string } | null>(null);
+  const [timeLeft, setTimeLeft] = useState(10);
   
   const inputRef = useRef<HTMLInputElement>(null);
+  const timerRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (state === 'ACTIVE' && !feedback && inputRef.current) {
-      // Small timeout ensures the DOM has updated and input is no longer disabled
       setTimeout(() => {
         inputRef.current?.focus();
       }, 10);
     }
   }, [currentQuestion, feedback, state]);
+
+  // Timer logic
+  useEffect(() => {
+    if (state === 'ACTIVE' && !feedback && timeLeft > 0) {
+      timerRef.current = window.setInterval(() => {
+        setTimeLeft((prev) => prev - 1);
+      }, 1000);
+    } else if (timeLeft === 0 && !feedback) {
+      // Time's up! Submit with no answer.
+      handleTimeout();
+    }
+
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [state, feedback, timeLeft]);
+
+  const handleTimeout = () => {
+    const result = quizManager.submitAnswer(-999999); // Impossible answer
+    setFeedback({
+      isCorrect: false,
+      message: `⏰ Time's up! It was ${result.correctAnswer}`
+    });
+    processNext(result);
+  };
   
   const quizManager = useMemo(() => new QuizManager({
     questionCount: 5,
@@ -43,24 +69,29 @@ function App() {
     setState('ACTIVE');
     setFeedback(null);
     setUserAnswer('');
+    setTimeLeft(10);
   };
 
   const handleQuit = () => {
     setState('IDLE');
     setFeedback(null);
     setUserAnswer('');
+    if (timerRef.current) clearInterval(timerRef.current);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!userAnswer) return;
+    if (!userAnswer || feedback) return;
 
     const result = quizManager.submitAnswer(parseInt(userAnswer));
     setFeedback({
       isCorrect: result.isCorrect,
       message: result.isCorrect ? '🌟 Correct!' : `❌ Oops! It was ${result.correctAnswer}`
     });
+    processNext(result);
+  };
 
+  const processNext = (result: any) => {
     setTimeout(() => {
       if (result.isFinished) {
         setState('FINISHED');
@@ -68,6 +99,7 @@ function App() {
         setCurrentQuestion(result.nextQuestion);
         setUserAnswer('');
         setFeedback(null);
+        setTimeLeft(10);
       }
     }, 1500);
   };
@@ -131,6 +163,9 @@ function App() {
           <div className="screen question-screen">
             <div className="screen-header-top">
               <button className="btn-icon" onClick={handleQuit} title="Back to Home">🏠</button>
+              <div className={`timer ${timeLeft <= 3 ? 'danger' : ''}`}>
+                ⏱️ {timeLeft}s
+              </div>
             </div>
             <div className="progress">
               Question {feedback ? quizManager.currentQuestionIndex : quizManager.currentQuestionIndex + 1} of {quizManager.questionCount}
