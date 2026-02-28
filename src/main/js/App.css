@@ -35,6 +35,45 @@ header h1 {
   color: #666;
 }
 
+.difficulty-container {
+  margin-bottom: 2.5rem;
+}
+
+.difficulty-container span {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #7f8c8d;
+}
+
+.difficulty-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.btn-difficulty {
+  background: #eee;
+  border: 2px solid transparent;
+  padding: 0.6rem 1.5rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 500;
+  color: #555;
+}
+
+.btn-difficulty:hover {
+  background: #e0e0e0;
+}
+
+.btn-difficulty.active {
+  background: #4a90e2;
+  color: white;
+  border-color: #357abd;
+  box-shadow: 0 4px 10px rgba(74, 144, 226, 0.3);
+}
+
 .question-screen .progress {
   font-size: 0.9rem;
   color: #999;

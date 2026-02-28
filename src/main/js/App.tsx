@@ -7,15 +7,16 @@ type QuizState = 'IDLE' | 'ACTIVE' | 'FINISHED';
 
 function App() {
   const [state, setState] = useState<QuizState>('IDLE');
+  const [difficulty, setDifficulty] = useState('EASY');
   const [currentQuestion, setCurrentQuestion] = useState<any>(null);
   const [userAnswer, setUserAnswer] = useState('');
   const [feedback, setFeedback] = useState<{ isCorrect: boolean; message: string } | null>(null);
   
   const quizManager = useMemo(() => new QuizManager({
     questionCount: 5,
-    difficulty: 'EASY',
+    difficulty: difficulty,
     operators: [Operator.ADD, Operator.SUBTRACT]
-  }), []);
+  }), [difficulty]);
 
   const handleStart = () => {
     const firstQ = quizManager.start();
@@ -56,6 +57,22 @@ function App() {
         {state === 'IDLE' && (
           <div className="screen start-screen">
             <p>Ready to test your math skills?</p>
+            
+            <div className="difficulty-container">
+              <span>Choose Difficulty:</span>
+              <div className="difficulty-buttons">
+                {['EASY', 'MEDIUM', 'HARD'].map((level) => (
+                  <button
+                    key={level}
+                    className={`btn-difficulty ${difficulty === level ? 'active' : ''}`}
+                    onClick={() => setDifficulty(level)}
+                  >
+                    {level.charAt(0) + level.slice(1).toLowerCase()}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <button className="btn-primary" onClick={handleStart}>Start Quiz!</button>
           </div>
         )}
