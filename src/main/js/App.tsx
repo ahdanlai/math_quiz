@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { QuizManager } from './services/QuizManager';
 import { Operator } from './core/MathQuestionGenerator';
 import './App.css';
@@ -12,6 +12,14 @@ function App() {
   const [currentQuestion, setCurrentQuestion] = useState<any>(null);
   const [userAnswer, setUserAnswer] = useState('');
   const [feedback, setFeedback] = useState<{ isCorrect: boolean; message: string } | null>(null);
+  
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (state === 'ACTIVE' && !feedback && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [currentQuestion, feedback, state]);
   
   const quizManager = useMemo(() => new QuizManager({
     questionCount: 5,
@@ -120,6 +128,7 @@ function App() {
             </div>
             <form onSubmit={handleSubmit}>
               <input
+                ref={inputRef}
                 type="number"
                 value={userAnswer}
                 onChange={(e) => setUserAnswer(e.target.value)}
