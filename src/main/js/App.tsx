@@ -95,6 +95,7 @@ function App() {
     setTimeout(() => {
       if (result.isFinished) {
         setState('FINISHED');
+        setFeedback(null);
       } else {
         setCurrentQuestion(result.nextQuestion);
         setUserAnswer('');
@@ -102,6 +103,25 @@ function App() {
         setTimeLeft(10);
       }
     }, 1500);
+  };
+
+  // Keyboard accessibility
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        if (state === 'IDLE' || state === 'FINISHED') {
+          handleStart();
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [state]);
+
+  const formatOperator = (op: string) => {
+    if (op === '*') return '×';
+    if (op === '/') return '÷';
+    return op;
   };
 
   return (
@@ -167,11 +187,17 @@ function App() {
                 ⏱️ {timeLeft}s
               </div>
             </div>
+            <div className="timer-bar-container">
+              <div 
+                className={`timer-bar ${timeLeft <= 3 ? 'danger' : ''}`} 
+                style={{ width: `${(timeLeft / 10) * 100}%` }}
+              ></div>
+            </div>
             <div className="progress">
               Question {feedback ? quizManager.currentQuestionIndex : quizManager.currentQuestionIndex + 1} of {quizManager.questionCount}
             </div>
             <div className="question-text">
-              {currentQuestion.operand1} {currentQuestion.operator} {currentQuestion.operand2} = ?
+              {currentQuestion.operand1} {formatOperator(currentQuestion.operator)} {currentQuestion.operand2} = ?
             </div>
             <form onSubmit={handleSubmit}>
               <input
@@ -217,7 +243,7 @@ function App() {
             {quizManager.questions.filter(q => q.userAnswer !== null).map((q, idx) => (
               <li key={idx} className={`history-item ${q.isCorrect ? 'correct' : 'incorrect'}`}>
                 <span className="history-question">
-                  Q{idx + 1}: {q.operand1} {q.operator} {q.operand2} = {q.userAnswer}
+                  Q{idx + 1}: {q.operand1} {formatOperator(q.operator)} {q.operand2} = {q.userAnswer}
                 </span>
                 <span className="history-icon">
                   {q.isCorrect ? '✅' : `❌ (Ans: ${q.answer})`}
