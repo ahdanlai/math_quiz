@@ -1,21 +1,58 @@
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { QuizManager } from './services/QuizManager';
+import type { QuestionInstance } from './services/QuizManager';
 import { Operator } from './core/MathQuestionGenerator';
 import './App.css';
 
 type QuizState = 'IDLE' | 'ACTIVE' | 'FINISHED';
 
+interface QuizResult {
+  isCorrect: boolean;
+  correctAnswer: number;
+  nextQuestion: QuestionInstance | null;
+  isFinished: boolean;
+}
+
 function App() {
   const [state, setState] = useState<QuizState>('IDLE');
   const [difficulty, setDifficulty] = useState('EASY');
   const [operators, setOperators] = useState<string[]>([Operator.ADD, Operator.SUBTRACT]);
-  const [currentQuestion, setCurrentQuestion] = useState<any>(null);
+  const [currentQuestion, setCurrentQuestion] = useState<QuestionInstance | null>(null);
   const [userAnswer, setUserAnswer] = useState('');
   const [feedback, setFeedback] = useState<{ isCorrect: boolean; message: string } | null>(null);
   const [timeLeft, setTimeLeft] = useState(10);
   
   const inputRef = useRef<HTMLInputElement>(null);
   const timerRef = useRef<number | null>(null);
+
+  const quizManager = useMemo(() => new QuizManager({
+    questionCount: 5,
+    difficulty: difficulty,
+    operators: operators
+  }), [difficulty, operators]);
+
+  const processNext = useCallback((result: QuizResult) => {
+    setTimeout(() => {
+      if (result.isFinished) {
+        setState('FINISHED');
+        setFeedback(null);
+      } else {
+        setCurrentQuestion(result.nextQuestion);
+        setUserAnswer('');
+        setFeedback(null);
+        setTimeLeft(10);
+      }
+    }, 1500);
+  }, []);
+
+  const handleTimeout = useCallback(() => {
+    const result = quizManager.submitAnswer(-999999); // Impossible answer
+    setFeedback({
+      isCorrect: false,
+      message: `⏰ Time's up! It was ${result.correctAnswer}`
+    });
+    processNext(result);
+  }, [quizManager, processNext]);
 
   useEffect(() => {
     if (state === 'ACTIVE' && !feedback && inputRef.current) {
@@ -39,23 +76,8 @@ function App() {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [state, feedback, timeLeft]);
-
-  const handleTimeout = () => {
-    const result = quizManager.submitAnswer(-999999); // Impossible answer
-    setFeedback({
-      isCorrect: false,
-      message: `⏰ Time's up! It was ${result.correctAnswer}`
-    });
-    processNext(result);
-  };
+  }, [state, feedback, timeLeft, handleTimeout]);
   
-  const quizManager = useMemo(() => new QuizManager({
-    questionCount: 5,
-    difficulty: difficulty,
-    operators: operators
-  }), [difficulty, operators]);
-
   const toggleOperator = (op: string) => {
     if (operators.includes(op) && operators.length === 1) return; // Must have at least one operator
     setOperators(prev => 
@@ -63,14 +85,14 @@ function App() {
     );
   };
 
-  const handleStart = () => {
+  const handleStart = useCallback(() => {
     const firstQ = quizManager.start();
     setCurrentQuestion(firstQ);
     setState('ACTIVE');
     setFeedback(null);
     setUserAnswer('');
     setTimeLeft(10);
-  };
+  }, [quizManager]);
 
   const handleQuit = () => {
     setState('IDLE');
@@ -91,20 +113,6 @@ function App() {
     processNext(result);
   };
 
-  const processNext = (result: any) => {
-    setTimeout(() => {
-      if (result.isFinished) {
-        setState('FINISHED');
-        setFeedback(null);
-      } else {
-        setCurrentQuestion(result.nextQuestion);
-        setUserAnswer('');
-        setFeedback(null);
-        setTimeLeft(10);
-      }
-    }, 1500);
-  };
-
   // Keyboard accessibility
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -116,7 +124,7 @@ function App() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [state]);
+  }, [state, handleStart]);
 
   const formatOperator = (op: string) => {
     if (op === '*') return '×';

@@ -70,7 +70,7 @@ export class QuizManager {
     };
 
     this.questions.push(instance);
-    return question;
+    return instance;
   }
 
   submitAnswer(answer: number) {
