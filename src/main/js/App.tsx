@@ -46,7 +46,7 @@ function App() {
   }, []);
 
   const handleTimeout = useCallback(() => {
-    const result = quizManager.submitAnswer(-999999); // Impossible answer
+    const result = quizManager.submitAnswer(null); // No answer given
     setFeedback({
       isCorrect: false,
       message: `⏰ Time's up! It was ${result.correctAnswer}`
@@ -244,14 +244,14 @@ function App() {
         )}
       </main>
 
-      {(state === 'ACTIVE' || state === 'FINISHED') && quizManager.questions.filter(q => q.userAnswer !== null).length > 0 && (
+      {(state === 'ACTIVE' || state === 'FINISHED') && quizManager.currentQuestionIndex > 0 && (
         <div className="history-section">
           <h3>Recent Answers</h3>
           <ul className="history-list">
-            {quizManager.questions.filter(q => q.userAnswer !== null).map((q, idx) => (
+            {quizManager.questions.slice(0, quizManager.currentQuestionIndex).map((q, idx) => (
               <li key={idx} className={`history-item ${q.isCorrect ? 'correct' : 'incorrect'}`}>
                 <span className="history-question">
-                  Q{idx + 1}: {q.operand1} {formatOperator(q.operator)} {q.operand2} = {q.userAnswer}
+                  Q{idx + 1}: {q.operand1} {formatOperator(q.operator)} {q.operand2} = {q.userAnswer === null ? 'no answer' : q.userAnswer}
                 </span>
                 <span className="history-icon">
                   {q.isCorrect ? '✅' : `❌ (Ans: ${q.answer})`}
