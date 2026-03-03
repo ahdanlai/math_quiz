@@ -244,11 +244,11 @@ function App() {
         )}
       </main>
 
-      {(state === 'ACTIVE' || state === 'FINISHED') && quizManager.currentQuestionIndex > 0 && (
+      {(state === 'ACTIVE' || state === 'FINISHED') && quizManager.questions.some(q => q.userAnswer !== null || q.isCorrect !== null) && (
         <div className="history-section">
           <h3>Recent Answers</h3>
           <ul className="history-list">
-            {quizManager.questions.slice(0, quizManager.currentQuestionIndex).map((q, idx) => (
+            {quizManager.questions.filter(q => q.userAnswer !== null || q.isCorrect !== null).map((q, idx) => (
               <li key={idx} className={`history-item ${q.isCorrect ? 'correct' : 'incorrect'}`}>
                 <span className="history-question">
                   Q{idx + 1}: {q.operand1} {formatOperator(q.operator)} {q.operand2} = {q.userAnswer === null ? 'no answer' : q.userAnswer}

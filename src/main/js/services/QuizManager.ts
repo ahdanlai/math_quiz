@@ -74,7 +74,10 @@ export class QuizManager {
   }
 
   submitAnswer(answer: number | null) {
-    if (this.isFinished) throw new Error("Quiz is already finished.");
+    if (this.isFinished || this.currentQuestionIndex >= this.questionCount) {
+      this.isFinished = true;
+      throw new Error("Quiz is already finished.");
+    }
 
     const currentQuestion = this.questions[this.currentQuestionIndex];
     const isCorrect = answer !== null && answer === currentQuestion.answer;
