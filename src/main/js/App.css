@@ -301,10 +301,7 @@ input[type="number"]:focus {
   to { transform: scale(1); opacity: 1; }
 }
 
-/* Light mode overrides for index.css */
-body {
-  background-color: #f0f4f8;
-}
+
 
 .history-section {
   margin-top: 2rem;
