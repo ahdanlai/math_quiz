@@ -182,7 +182,7 @@ function App() {
             </div>
 
             <button className="btn-primary start-btn" onClick={handleStart}>
-              Go! 🔴
+              Go! 🚀
             </button>
           </div>
         )}
