@@ -68,7 +68,7 @@ function App() {
       timerRef.current = window.setInterval(() => {
         setTimeLeft((prev) => prev - 1);
       }, 1000);
-    } else if (timeLeft === 0 && !feedback) {
+    } else if (state === 'ACTIVE' && timeLeft === 0 && !feedback) {
       // Time's up! Submit with no answer.
       handleTimeout();
     }
