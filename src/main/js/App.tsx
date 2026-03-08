@@ -21,6 +21,7 @@ function App() {
   const [userAnswer, setUserAnswer] = useState('');
   const [feedback, setFeedback] = useState<{ isCorrect: boolean; message: string } | null>(null);
   const [timeLeft, setTimeLeft] = useState(10);
+  const [showReview, setShowReview] = useState(false);
   
   const inputRef = useRef<HTMLInputElement>(null);
   const timerRef = useRef<number | null>(null);
@@ -92,12 +93,14 @@ function App() {
     setFeedback(null);
     setUserAnswer('');
     setTimeLeft(10);
+    setShowReview(false);
   }, [quizManager]);
 
   const handleQuit = () => {
     setState('IDLE');
     setFeedback(null);
     setUserAnswer('');
+    setShowReview(false);
     if (timerRef.current) clearInterval(timerRef.current);
   };
 
@@ -239,12 +242,17 @@ function App() {
               <span className="final-score">{quizManager.score}</span> / {quizManager.questionCount}
             </div>
             <p>{quizManager.score === quizManager.questionCount ? "🥇 Perfect Score! You're a math wizard!" : 'Great job! Keep practicing!'}</p>
-            <button className="btn-primary" onClick={handleStart}>Play Again</button>
+            <div className="action-buttons" style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+              <button className="btn-primary" onClick={handleStart}>Play Again</button>
+              <button className="btn-secondary" onClick={() => setShowReview(!showReview)}>
+                {showReview ? 'Hide Review' : 'Review'}
+              </button>
+            </div>
           </div>
         )}
       </main>
 
-      {(state === 'ACTIVE' || state === 'FINISHED') && quizManager.questions.some(q => q.userAnswer !== null || q.isCorrect !== null) && (
+      {state === 'FINISHED' && showReview && quizManager.questions.some(q => q.userAnswer !== null || q.isCorrect !== null) && (
         <div className="history-section">
           <h3>Recent Answers</h3>
           <ul className="history-list">
