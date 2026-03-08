@@ -235,9 +235,7 @@ input[type="number"]:focus {
   box-shadow: 0 0 0 4px rgba(255, 222, 89, 0.4);
 }
 
-.btn-primary, .btn-submit {
-  background: #ff6b6b;
-  color: white;
+.btn-primary, .btn-submit, .btn-secondary {
   border: 3px solid #333;
   border-bottom: 6px solid #333;
   padding: 1rem 2.5rem;
@@ -248,6 +246,15 @@ input[type="number"]:focus {
   font-weight: bold;
   font-family: 'Fredoka', sans-serif;
   text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
+  color: white;
+}
+
+.btn-primary, .btn-submit {
+  background: #ff6b6b;
+}
+
+.btn-secondary {
+  background: #4a90e2;
 }
 
 .btn-primary:hover, .btn-submit:hover {
@@ -255,7 +262,12 @@ input[type="number"]:focus {
   transform: translateY(-2px);
 }
 
-.btn-primary:active, .btn-submit:active {
+.btn-secondary:hover {
+  background: #357abd;
+  transform: translateY(-2px);
+}
+
+.btn-primary:active, .btn-submit:active, .btn-secondary:active {
   transform: translateY(4px);
   border-bottom-width: 2px;
   margin-bottom: 4px;
